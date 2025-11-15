@@ -1,6 +1,6 @@
 package collections
 
-import "github.com/lihs-ie/struct-factory/internal/hamt"
+import "github.com/lihs-ie/forge/internal/hamt"
 
 type void = struct{}
 

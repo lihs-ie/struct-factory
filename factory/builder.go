@@ -3,7 +3,7 @@ package factory
 import (
 	"math/rand"
 
-	"github.com/lihs-ie/struct-factory/internal/collections"
+	"github.com/lihs-ie/forge/internal/collections"
 )
 
 const maxSafeInteger = 1<<53 - 1

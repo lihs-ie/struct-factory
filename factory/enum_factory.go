@@ -1,6 +1,6 @@
 package factory
 
-import "github.com/lihs-ie/struct-factory/internal/collections"
+import "github.com/lihs-ie/forge/internal/collections"
 
 // EnumProperties captures the selected value and exclusions for EnumFactory.
 type EnumProperties[T comparable] struct {

@@ -1,7 +1,7 @@
 package factory
 
 import (
-	"github.com/lihs-ie/struct-factory/internal/math"
+	"github.com/lihs-ie/forge/internal/math"
 )
 
 // CharacterSet defines a pool of runes used for random string generation.
@@ -97,17 +97,19 @@ func (f *StringFactory) Prepare(overrides Partial[StringProperties], seed int64)
 		properties.characters = Characters.Alphanumeric
 	}
 
-	offset := seed % int64(properties.max-properties.min+1)
-	length := properties.min + int(offset)
+	if properties.value == "" {
+		offset := seed % int64(properties.max-properties.min+1)
+		length := properties.min + int(offset)
 
-	value := make([]rune, length)
-	for index := range length {
-		scrambled := math.Scramble(uint32(seed + int64(index)))
-		characterIndex := int(scrambled) % len(properties.characters)
-		value[index] = properties.characters[characterIndex]
+		value := make([]rune, length)
+		for index := range length {
+			scrambled := math.Scramble(uint32(seed + int64(index)))
+			characterIndex := int(scrambled) % len(properties.characters)
+			value[index] = properties.characters[characterIndex]
+		}
+
+		properties.value = string(value)
 	}
-
-	properties.value = string(value)
 
 	return properties
 }

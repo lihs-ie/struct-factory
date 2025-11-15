@@ -106,6 +106,82 @@ func TestStringFactoryPrepareLength(t *testing.T) {
 	}
 }
 
+func TestStringFactoryWithMaxLessThanMin(t *testing.T) {
+	factory := &StringFactory{
+		Min: 10,
+		Max: 5,
+	}
+
+	properties := factory.Prepare(nil, 0)
+
+	if properties.max < properties.min {
+		t.Errorf("Expected max >= min, got min=%d, max=%d", properties.min, properties.max)
+	}
+}
+
+func TestStringFactoryWithNegativeMin(t *testing.T) {
+	factory := &StringFactory{
+		Min: -5,
+		Max: 10,
+	}
+
+	properties := factory.Prepare(nil, 0)
+
+	if properties.min <= 0 {
+		t.Errorf("Expected min > 0, got %d", properties.min)
+	}
+}
+
+func TestStringFactoryWithZeroMax(t *testing.T) {
+	factory := &StringFactory{
+		Min: 0,
+		Max: 0,
+	}
+
+	properties := factory.Prepare(nil, 0)
+
+	if len(properties.value) < 1 {
+		t.Errorf("Expected length >= 1, got %d", len(properties.value))
+	}
+}
+
+func TestStringFactoryWithOverrideMaxLessThanMin(t *testing.T) {
+	factory := &StringFactory{}
+
+	properties := factory.Prepare(Override[StringProperties](map[string]any{
+		"min": 10,
+		"max": 5,
+	}).Func(), 0)
+
+	if properties.max < properties.min {
+		t.Errorf("Expected max >= min, got min=%d, max=%d", properties.min, properties.max)
+	}
+}
+
+func TestStringFactoryWithOverrideNegativeMin(t *testing.T) {
+	factory := &StringFactory{}
+
+	properties := factory.Prepare(Override[StringProperties](map[string]any{
+		"min": -5,
+	}).Func(), 0)
+
+	if properties.min <= 0 {
+		t.Errorf("Expected min > 0, got %d", properties.min)
+	}
+}
+
+func TestStringFactoryWithOverrideEmptyCharacters(t *testing.T) {
+	factory := &StringFactory{}
+
+	properties := factory.Prepare(Override[StringProperties](map[string]any{
+		"characters": CharacterSet{},
+	}).Func(), 0)
+
+	if len(properties.characters) == 0 {
+		t.Errorf("Expected characters to be set to default")
+	}
+}
+
 func TestStringFactoryPrepareWithNumericCharacters(t *testing.T) {
 	minimum := 5
 	maximum := 5
