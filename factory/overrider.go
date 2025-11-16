@@ -1,6 +1,7 @@
 package factory
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"strings"
@@ -77,13 +78,13 @@ type literalEntry struct {
 
 func parseOverrideLiteral(literal any, caseInsensitive bool) ([]literalEntry, error) {
 	if literal == nil {
-		return nil, fmt.Errorf("override: literal cannot be nil")
+		return nil, errors.New("override: literal cannot be nil")
 	}
 
 	value := reflect.ValueOf(literal)
 	for value.Kind() == reflect.Pointer {
 		if value.IsNil() {
-			return nil, fmt.Errorf("override: literal pointer cannot be nil")
+			return nil, errors.New("override: literal pointer cannot be nil")
 		}
 		value = value.Elem()
 	}
@@ -159,7 +160,7 @@ func applyOverrideEntries[P any](properties *P, entries []literalEntry, config o
 	return nil
 }
 
-func applyOverrideEntry(targetPtr reflect.Value, targetValue reflect.Value, entry literalEntry, config overrideOptions) error {
+func applyOverrideEntry(targetPtr, targetValue reflect.Value, entry literalEntry, config overrideOptions) error {
 	setterName := buildSetterName(entry.originalName)
 	if setterName != "" {
 		method := targetPtr.MethodByName(setterName)
@@ -184,7 +185,7 @@ func applyOverrideEntry(targetPtr reflect.Value, targetValue reflect.Value, entr
 		return fmt.Errorf("override: cannot assign %q: %w", fieldInfo.Name, err)
 	}
 
-	isExported := isExportedStructField(fieldInfo)
+	isExported := isExportedStructField(&fieldInfo)
 	if isExported && fieldValue.CanSet() {
 		fieldValue.Set(prepared)
 		notifyOverride(targetPtr, fieldInfo.Name)
@@ -219,6 +220,7 @@ func lookupFieldRecursive(value reflect.Value, canonical string, caseInsensitive
 		if canonicalName(field.Name, caseInsensitive) == canonical {
 			return fieldValue, field, true
 		}
+		//nolint:nestif // Complexity 6 is acceptable for embedded struct field lookup
 		if field.Anonymous {
 			embedded := fieldValue
 			if embedded.Kind() == reflect.Pointer {
@@ -311,7 +313,7 @@ func exportableName(name string) string {
 	return builder.String()
 }
 
-func isExportedStructField(field reflect.StructField) bool {
+func isExportedStructField(field *reflect.StructField) bool {
 	return field.PkgPath == "" && isExportedIdentifier(field.Name)
 }
 

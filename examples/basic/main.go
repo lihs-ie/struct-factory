@@ -19,7 +19,7 @@ type UserProperties struct {
 type UserFactory struct{}
 
 func (f *UserFactory) Instantiate(props UserProperties) User {
-	return User{name: props.name, age: props.age}
+	return User(props)
 }
 
 func (f *UserFactory) Prepare(overrides factory.Partial[UserProperties], seed int64) UserProperties {
@@ -34,7 +34,7 @@ func (f *UserFactory) Prepare(overrides factory.Partial[UserProperties], seed in
 }
 
 func (f *UserFactory) Retrieve(instance User) UserProperties {
-	return UserProperties{name: instance.name, age: instance.age}
+	return UserProperties(instance)
 }
 
 func main() {

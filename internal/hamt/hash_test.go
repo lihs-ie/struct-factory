@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// TestHash_BasicTypes tests hashing of basic types
+// TestHash_BasicTypes tests hashing of basic types.
 func TestHash_BasicTypes(t *testing.T) {
 	tests := []struct {
 		name  string
@@ -51,7 +51,7 @@ func TestHash_BasicTypes(t *testing.T) {
 	}
 }
 
-// TestHash_Nil tests hashing of nil values
+// TestHash_Nil tests hashing of nil values.
 func TestHash_Nil(t *testing.T) {
 	var nilPointer *int
 	var nilInterface interface{}
@@ -64,7 +64,7 @@ func TestHash_Nil(t *testing.T) {
 	}
 }
 
-// TestHash_Pointers tests hashing of pointer values
+// TestHash_Pointers tests hashing of pointer values.
 func TestHash_Pointers(t *testing.T) {
 	value := 42
 	pointer := &value
@@ -77,7 +77,7 @@ func TestHash_Pointers(t *testing.T) {
 	}
 }
 
-// TestHash_Interfaces tests hashing through interface{}
+// TestHash_Interfaces tests hashing through interface{}.
 func TestHash_Interfaces(t *testing.T) {
 	var value interface{} = 42
 
@@ -89,7 +89,7 @@ func TestHash_Interfaces(t *testing.T) {
 	}
 }
 
-// TestHash_Arrays tests hashing of arrays
+// TestHash_Arrays tests hashing of arrays.
 func TestHash_Arrays(t *testing.T) {
 	array1 := [3]int{1, 2, 3}
 	array2 := [3]int{1, 2, 3}
@@ -108,7 +108,7 @@ func TestHash_Arrays(t *testing.T) {
 	}
 }
 
-// TestHash_Slices tests hashing of slices
+// TestHash_Slices tests hashing of slices.
 func TestHash_Slices(t *testing.T) {
 	slice1 := []int{1, 2, 3}
 	slice2 := []int{1, 2, 3}
@@ -133,7 +133,7 @@ func TestHash_Slices(t *testing.T) {
 	}
 }
 
-// TestHash_Maps tests hashing of maps
+// TestHash_Maps tests hashing of maps.
 func TestHash_Maps(t *testing.T) {
 	map1 := map[string]int{"a": 1, "b": 2}
 	map2 := map[string]int{"b": 2, "a": 1}
@@ -159,7 +159,7 @@ func TestHash_Maps(t *testing.T) {
 	}
 }
 
-// TestHash_Structs tests hashing of structs
+// TestHash_Structs tests hashing of structs.
 func TestHash_Structs(t *testing.T) {
 	type Person struct {
 		Name string
@@ -183,7 +183,7 @@ func TestHash_Structs(t *testing.T) {
 	}
 }
 
-// TestHash_StructWithUnexportedFields tests hashing of structs with unexported fields
+// TestHash_StructWithUnexportedFields tests hashing of structs with unexported fields.
 func TestHash_StructWithUnexportedFields(t *testing.T) {
 	type StructWithPrivate struct {
 		Public  string
@@ -202,7 +202,7 @@ func TestHash_StructWithUnexportedFields(t *testing.T) {
 	}
 }
 
-// TestHash_NestedStructs tests hashing of nested structs
+// TestHash_NestedStructs tests hashing of nested structs.
 func TestHash_NestedStructs(t *testing.T) {
 	type Address struct {
 		City string
@@ -242,7 +242,7 @@ func TestHash_NestedStructs(t *testing.T) {
 	}
 }
 
-// TestHash_Time tests hashing of time.Time
+// TestHash_Time tests hashing of time.Time.
 func TestHash_Time(t *testing.T) {
 	time1 := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
 	time2 := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
@@ -261,7 +261,7 @@ func TestHash_Time(t *testing.T) {
 	}
 }
 
-// CustomHashable is a type that implements Hashable interface
+// CustomHashable is a type that implements Hashable interface.
 type CustomHashable struct {
 	Value int
 }
@@ -270,7 +270,7 @@ func (c CustomHashable) Hash() (uint64, error) {
 	return uint64(c.Value * 1000), nil
 }
 
-// TestHash_Hashable tests hashing of types implementing Hashable interface
+// TestHash_Hashable tests hashing of types implementing Hashable interface.
 func TestHash_Hashable(t *testing.T) {
 	custom := CustomHashable{Value: 42}
 	hash := Hash(custom)
@@ -281,7 +281,7 @@ func TestHash_Hashable(t *testing.T) {
 	}
 }
 
-// TestHash_HashablePointer tests hashing of pointer to Hashable
+// TestHash_HashablePointer tests hashing of pointer to Hashable.
 func TestHash_HashablePointer(t *testing.T) {
 	custom := &CustomHashable{Value: 42}
 	hash := Hash(custom)
@@ -292,7 +292,7 @@ func TestHash_HashablePointer(t *testing.T) {
 	}
 }
 
-// TestHash_ComplexNesting tests hashing of complex nested structures
+// TestHash_ComplexNesting tests hashing of complex nested structures.
 func TestHash_ComplexNesting(t *testing.T) {
 	type ComplexStruct struct {
 		Name     string
@@ -329,7 +329,7 @@ func TestHash_ComplexNesting(t *testing.T) {
 	}
 }
 
-// TestHash_EmptyStruct tests hashing of empty structs
+// TestHash_EmptyStruct tests hashing of empty structs.
 func TestHash_EmptyStruct(t *testing.T) {
 	type EmptyStruct struct{}
 
@@ -344,7 +344,7 @@ func TestHash_EmptyStruct(t *testing.T) {
 	}
 }
 
-// TestHash_Consistency tests that same value always produces same hash
+// TestHash_Consistency tests that same value always produces same hash.
 func TestHash_Consistency(t *testing.T) {
 	value := "test string"
 
@@ -361,7 +361,7 @@ func TestHash_Consistency(t *testing.T) {
 	}
 }
 
-// TestHash_DifferentTypes tests that different types produce different hashes
+// TestHash_DifferentTypes tests that different types produce different hashes.
 func TestHash_DifferentTypes(t *testing.T) {
 	hashInt := Hash(42)
 	hashString := Hash("42")
@@ -376,7 +376,7 @@ func TestHash_DifferentTypes(t *testing.T) {
 	}
 }
 
-// BenchmarkHash_String benchmarks string hashing
+// BenchmarkHash_String benchmarks string hashing.
 func BenchmarkHash_String(b *testing.B) {
 	value := "test string for benchmarking"
 	b.ResetTimer()
@@ -385,7 +385,7 @@ func BenchmarkHash_String(b *testing.B) {
 	}
 }
 
-// BenchmarkHash_Int benchmarks int hashing
+// BenchmarkHash_Int benchmarks int hashing.
 func BenchmarkHash_Int(b *testing.B) {
 	value := 42
 	b.ResetTimer()
@@ -394,7 +394,7 @@ func BenchmarkHash_Int(b *testing.B) {
 	}
 }
 
-// BenchmarkHash_Struct benchmarks struct hashing
+// BenchmarkHash_Struct benchmarks struct hashing.
 func BenchmarkHash_Struct(b *testing.B) {
 	type Person struct {
 		Name string
@@ -407,7 +407,7 @@ func BenchmarkHash_Struct(b *testing.B) {
 	}
 }
 
-// BenchmarkHash_Slice benchmarks slice hashing
+// BenchmarkHash_Slice benchmarks slice hashing.
 func BenchmarkHash_Slice(b *testing.B) {
 	value := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	b.ResetTimer()
@@ -416,7 +416,7 @@ func BenchmarkHash_Slice(b *testing.B) {
 	}
 }
 
-// BenchmarkHash_Map benchmarks map hashing
+// BenchmarkHash_Map benchmarks map hashing.
 func BenchmarkHash_Map(b *testing.B) {
 	value := map[string]int{
 		"a": 1,
@@ -431,7 +431,7 @@ func BenchmarkHash_Map(b *testing.B) {
 	}
 }
 
-// TestHash_DoublePointer tests hashing of double pointers
+// TestHash_DoublePointer tests hashing of double pointers.
 func TestHash_DoublePointer(t *testing.T) {
 	value := 42
 	pointer1 := &value
@@ -445,7 +445,7 @@ func TestHash_DoublePointer(t *testing.T) {
 	}
 }
 
-// TestHash_InterfaceWrappedPointer tests hashing of interface-wrapped pointers
+// TestHash_InterfaceWrappedPointer tests hashing of interface-wrapped pointers.
 func TestHash_InterfaceWrappedPointer(t *testing.T) {
 	value := 42
 	pointer := &value
@@ -459,14 +459,14 @@ func TestHash_InterfaceWrappedPointer(t *testing.T) {
 	}
 }
 
-// ErrorHashable is a type that implements Hashable but returns an error
+// ErrorHashable is a type that implements Hashable but returns an error.
 type ErrorHashable struct{}
 
 func (e ErrorHashable) Hash() (uint64, error) {
 	return 0, nil // Returns successfully with 0
 }
 
-// TestHash_ErrorHashable tests Hashable that returns an error
+// TestHash_ErrorHashable tests Hashable that returns an error.
 func TestHash_ErrorHashable(t *testing.T) {
 	errorHashable := ErrorHashable{}
 	hash := Hash(errorHashable)
@@ -477,7 +477,7 @@ func TestHash_ErrorHashable(t *testing.T) {
 	}
 }
 
-// TestHash_NestedSlicesWithErrors tests nested structures that might cause errors
+// TestHash_NestedSlicesWithErrors tests nested structures that might cause errors.
 func TestHash_NestedSlicesWithErrors(t *testing.T) {
 	nestedSlice := [][]int{{1, 2}, {3, 4}, {5, 6}}
 
@@ -489,7 +489,7 @@ func TestHash_NestedSlicesWithErrors(t *testing.T) {
 	}
 }
 
-// TestHash_NestedMapsWithErrors tests nested maps
+// TestHash_NestedMapsWithErrors tests nested maps.
 func TestHash_NestedMapsWithErrors(t *testing.T) {
 	nestedMap := map[string]map[string]int{
 		"a": {"x": 1, "y": 2},
@@ -504,7 +504,7 @@ func TestHash_NestedMapsWithErrors(t *testing.T) {
 	}
 }
 
-// TestHash_SliceWithMixedTypes tests slices containing different types
+// TestHash_SliceWithMixedTypes tests slices containing different types.
 func TestHash_SliceWithMixedTypes(t *testing.T) {
 	slice := []interface{}{1, "two", 3.0, true}
 
@@ -516,7 +516,7 @@ func TestHash_SliceWithMixedTypes(t *testing.T) {
 	}
 }
 
-// TestHash_MapWithComplexKeys tests maps with complex key types
+// TestHash_MapWithComplexKeys tests maps with complex key types.
 func TestHash_MapWithComplexKeys(t *testing.T) {
 	type Key struct {
 		ID   int
@@ -541,7 +541,7 @@ func TestHash_MapWithComplexKeys(t *testing.T) {
 	}
 }
 
-// TestHash_StructWithPointerFields tests structs containing pointer fields
+// TestHash_StructWithPointerFields tests structs containing pointer fields.
 func TestHash_StructWithPointerFields(t *testing.T) {
 	type StructWithPointer struct {
 		Value *int
@@ -560,7 +560,7 @@ func TestHash_StructWithPointerFields(t *testing.T) {
 	}
 }
 
-// TestHash_StructWithNilPointer tests structs with nil pointer fields
+// TestHash_StructWithNilPointer tests structs with nil pointer fields.
 func TestHash_StructWithNilPointer(t *testing.T) {
 	type StructWithPointer struct {
 		Value *int
@@ -578,7 +578,7 @@ func TestHash_StructWithNilPointer(t *testing.T) {
 	}
 }
 
-// TestHash_StructWithSliceField tests structs containing slice fields
+// TestHash_StructWithSliceField tests structs containing slice fields.
 func TestHash_StructWithSliceField(t *testing.T) {
 	type StructWithSlice struct {
 		Name   string
@@ -596,7 +596,7 @@ func TestHash_StructWithSliceField(t *testing.T) {
 	}
 }
 
-// TestHash_StructWithMapField tests structs containing map fields
+// TestHash_StructWithMapField tests structs containing map fields.
 func TestHash_StructWithMapField(t *testing.T) {
 	type StructWithMap struct {
 		Name string
@@ -620,7 +620,7 @@ func TestHash_StructWithMapField(t *testing.T) {
 	}
 }
 
-// TestHash_ArrayOfStructs tests arrays containing structs
+// TestHash_ArrayOfStructs tests arrays containing structs.
 func TestHash_ArrayOfStructs(t *testing.T) {
 	type Person struct {
 		Name string
@@ -645,7 +645,7 @@ func TestHash_ArrayOfStructs(t *testing.T) {
 	}
 }
 
-// TestHash_Chan tests that channels are handled
+// TestHash_Chan tests that channels are handled.
 func TestHash_Chan(t *testing.T) {
 	ch := make(chan int)
 	hash := Hash(ch)
@@ -654,7 +654,7 @@ func TestHash_Chan(t *testing.T) {
 	_ = hash // Just ensure it doesn't panic
 }
 
-// TestHash_Func tests that functions are handled
+// TestHash_Func tests that functions are handled.
 func TestHash_Func(t *testing.T) {
 	fn := func() {}
 	hash := Hash(fn)
@@ -663,7 +663,7 @@ func TestHash_Func(t *testing.T) {
 	_ = hash // Just ensure it doesn't panic
 }
 
-// TestHashValue_DirectCall tests hashValue function directly for error paths
+// TestHashValue_DirectCall tests hashValue function directly for error paths.
 func TestHashValue_DirectCall(t *testing.T) {
 	hasher := fnv.New64a()
 
@@ -688,7 +688,6 @@ func TestHashValue_DirectCall(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			value := reflect.ValueOf(tc.value)
 			hash, err := hashValue(hasher, value)
-
 			if err != nil {
 				t.Errorf("hashValue(%s) returned error: %v", tc.name, err)
 			}
@@ -700,7 +699,7 @@ func TestHashValue_DirectCall(t *testing.T) {
 	}
 }
 
-// TestHashValue_NestedStructures tests deeply nested structures
+// TestHashValue_NestedStructures tests deeply nested structures.
 func TestHashValue_NestedStructures(t *testing.T) {
 	hasher := fnv.New64a()
 
@@ -728,7 +727,6 @@ func TestHashValue_NestedStructures(t *testing.T) {
 
 	value := reflect.ValueOf(outer)
 	hash, err := hashValue(hasher, value)
-
 	if err != nil {
 		t.Errorf("hashValue for nested structure returned error: %v", err)
 	}
@@ -738,7 +736,7 @@ func TestHashValue_NestedStructures(t *testing.T) {
 	}
 }
 
-// TestHashValue_EmptyCollections tests empty collections
+// TestHashValue_EmptyCollections tests empty collections.
 func TestHashValue_EmptyCollections(t *testing.T) {
 	hasher := fnv.New64a()
 
@@ -756,7 +754,6 @@ func TestHashValue_EmptyCollections(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			value := reflect.ValueOf(tc.value)
 			_, err := hashValue(hasher, value)
-
 			if err != nil {
 				t.Errorf("hashValue(%s) returned error: %v", tc.name, err)
 			}

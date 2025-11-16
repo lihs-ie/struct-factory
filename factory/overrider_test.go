@@ -256,7 +256,7 @@ func TestOverrideWithUnexportedFieldWithoutPermission(t *testing.T) {
 	}()
 
 	type PrivateProps struct {
-		value string
+		value string //nolint:unused // Field is intentionally unused as test expects panic before access
 	}
 
 	props := &PrivateProps{}
@@ -527,7 +527,7 @@ func TestOverrideWithInvalidTarget(t *testing.T) {
 		}
 	}()
 
-	var notAStruct int = 42
+	notAStruct := 42
 
 	overrider := Override[int](map[string]any{
 		"Value": "test",

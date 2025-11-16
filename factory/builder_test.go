@@ -24,7 +24,7 @@ type stubFactory struct {
 }
 
 func (f *stubFactory) Instantiate(props stubProps) stubInstance {
-	return stubInstance{Value: props.Value, Seed: props.Seed}
+	return stubInstance(props)
 }
 
 func (f *stubFactory) Prepare(overrides Partial[stubProps], seed int64) stubProps {
@@ -37,7 +37,7 @@ func (f *stubFactory) Prepare(overrides Partial[stubProps], seed int64) stubProp
 }
 
 func (f *stubFactory) Retrieve(instance stubInstance) stubProps {
-	return stubProps{Value: instance.Value, Seed: instance.Seed}
+	return stubProps(instance)
 }
 
 func TestBuilderBuildAppliesLiteralOverride(t *testing.T) {

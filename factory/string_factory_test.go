@@ -8,21 +8,21 @@ import (
 func TestStringFactoryOverrideConfig(t *testing.T) {
 	factory := &StringFactory{}
 
-	min := 10
-	max := 12
+	minLength := 10
+	maxLength := 12
 	customChars := CharacterSet{'x', 'y', 'z'}
 
 	properties := factory.Prepare(Override[StringProperties](map[string]any{
-		"min":        min,
-		"max":        max,
+		"min":        minLength,
+		"max":        maxLength,
 		"characters": customChars,
 	}).Func(), 0)
 
-	if properties.min != min {
-		t.Fatalf("expected min %d, got %d", min, properties.min)
+	if properties.min != minLength {
+		t.Fatalf("expected min %d, got %d", minLength, properties.min)
 	}
-	if properties.max != max {
-		t.Fatalf("expected max %d, got %d", max, properties.max)
+	if properties.max != maxLength {
+		t.Fatalf("expected max %d, got %d", maxLength, properties.max)
 	}
 	if len(properties.characters) != len(customChars) {
 		t.Fatalf("expected custom charset")
@@ -214,7 +214,7 @@ func TestStringFactoryPrepareWithAlphaCharacters(t *testing.T) {
 	}).Func(), 100)
 
 	for _, char := range properties.value {
-		if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+		if (char < 'a' || char > 'z') && (char < 'A' || char > 'Z') {
 			t.Errorf("Expected only alpha characters, got '%c'", char)
 		}
 	}
@@ -292,16 +292,16 @@ func TestStringFactoryBuildList(t *testing.T) {
 
 	builder := Builder(factory)
 
-	strings := builder.BuildList(10, Override[StringProperties](map[string]any{
+	stringsBuilt := builder.BuildList(10, Override[StringProperties](map[string]any{
 		"min": minimum,
 		"max": maximum,
 	}))
 
-	if len(strings) != 10 {
-		t.Errorf("Expected 10 strings, got %d", len(strings))
+	if len(stringsBuilt) != 10 {
+		t.Errorf("Expected 10 strings, got %d", len(stringsBuilt))
 	}
 
-	for _, str := range strings {
+	for _, str := range stringsBuilt {
 		if len(str) < 5 || len(str) > 15 {
 			t.Errorf("Expected length between 5 and 15, got %d", len(str))
 		}
@@ -341,7 +341,7 @@ func TestCharactersAlpha(t *testing.T) {
 	}
 
 	for _, char := range Characters.Alpha {
-		if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+		if (char < 'a' || char > 'z') && (char < 'A' || char > 'Z') {
 			t.Errorf("Expected only alpha characters, got '%c'", char)
 		}
 	}

@@ -135,7 +135,7 @@ func TestInvertedSaltConstant(t *testing.T) {
 	}
 }
 
-func extendedGCD64(a, b uint64) (gcd uint64, x int64, y int64) {
+func extendedGCD64(a, b uint64) (gcd uint64, x, y int64) {
 	if a == 0 {
 		return b, 0, 1
 	}

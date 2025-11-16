@@ -21,11 +21,7 @@ type UserProperties struct {
 type UserFactory struct{}
 
 func (f *UserFactory) Instantiate(properties UserProperties) User {
-	return User{
-		ID:   properties.ID,
-		Name: properties.Name,
-		Age:  properties.Age,
-	}
+	return User(properties)
 }
 
 func (f *UserFactory) Prepare(overrides Partial[UserProperties], seed int64) UserProperties {
@@ -43,11 +39,7 @@ func (f *UserFactory) Prepare(overrides Partial[UserProperties], seed int64) Use
 }
 
 func (f *UserFactory) Retrieve(instance User) UserProperties {
-	return UserProperties{
-		ID:   instance.ID,
-		Name: instance.Name,
-		Age:  instance.Age,
-	}
+	return UserProperties(instance)
 }
 
 type profile struct {
@@ -104,6 +96,7 @@ func TestFactoryMethods(t *testing.T) {
 	if properties.ID != 54321 {
 		t.Errorf("Expected ID 54321, got %d", properties.ID)
 	}
+
 	if properties.Name != "User54321" {
 		t.Errorf("Expected Name 'User54321', got '%s'", properties.Name)
 	}
@@ -192,7 +185,6 @@ func TestBuilder(t *testing.T) {
 	if duplicated.Age != user1.Age {
 		t.Errorf("Expected Age %d, got %d", user1.Age, duplicated.Age)
 	}
-
 }
 
 func TestUserFactoryWithInlineOverride(t *testing.T) {

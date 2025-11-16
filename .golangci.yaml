@@ -1,0 +1,96 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - misspell
+    - gocyclo
+    - gocritic
+    - revive
+    - gosec
+    - bodyclose
+    - prealloc
+    - nilerr
+    - errorlint
+    - godot
+    - nestif
+    - nakedret
+    - unconvert
+    - unparam
+    - perfsprint
+
+  settings:
+    gocyclo:
+      min-complexity: 15
+
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+
+    gosec:
+      # G115: Integer overflow conversion
+      # Disabled for internal package where conversions are mathematically proven safe:
+      # - bitmap.go: offset bounded by HAMT depth [0, 10]
+      # - math.go: values masked/bounded by modular arithmetic
+      excludes:
+        - G115
+
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: dot-imports
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: exported
+        - name: increment-decrement
+        - name: var-naming
+        - name: package-comments
+        - name: range
+        - name: receiver-naming
+        - name: indent-error-flow
+        - name: superfluous-else
+        - name: unreachable-code
+        - name: redefines-builtin-id
+
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+    rules:
+      - linters:
+          - errcheck
+          - gosec
+        path: _test\.go
+
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

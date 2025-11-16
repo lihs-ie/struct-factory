@@ -34,6 +34,7 @@ func Builder[T any, P any](factory Factory[T, P]) BuilderHandle[T, P] {
 		next := make([]int64, 0, size)
 
 		for len(next) < size {
+			//nolint:gosec // G404: math/rand is acceptable for deterministic test data generation
 			seed := rand.Int63n(maxSafeInteger)
 			if !seeds.Has(seed) {
 				next = append(next, seed)

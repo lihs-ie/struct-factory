@@ -34,7 +34,7 @@ func TestLeafNodeSetPositionCollision(t *testing.T) {
 	// but Position(hash, 1) is different
 
 	// Using simple hashes for testing
-	hash1 := uint64(0b000001) // bits 0-5: 1
+	hash1 := uint64(0b000001)                   // bits 0-5: 1
 	hash2 := uint64(0b000001 | (0b000001 << 6)) // bits 0-5: 1, bits 6-11: 1
 
 	leaf1 := NewLeafNode(hash1, "key1", 100)
@@ -112,6 +112,7 @@ func TestBitmapIndexedNodeRemoveEdgeCases(t *testing.T) {
 	}
 }
 
+//nolint:gocyclo // Comprehensive test covering many scenarios, complexity acceptable
 func TestCompleteHAMTWorkflow(t *testing.T) {
 	// Build a comprehensive tree that exercises all code paths
 	var root Node[string, int]

@@ -59,17 +59,17 @@ func (f *StringFactory) Instantiate(properties StringProperties) string {
 
 // Prepare produces StringProperties using the provided seed and overrides.
 func (f *StringFactory) Prepare(overrides Partial[StringProperties], seed int64) StringProperties {
-	min := f.Min
-	if min <= 0 {
-		min = 1
+	minLength := f.Min
+	if minLength <= 0 {
+		minLength = 1
 	}
 
-	max := f.Max
-	if max <= 0 {
-		max = 255
+	maxLength := f.Max
+	if maxLength <= 0 {
+		maxLength = 255
 	}
-	if max < min {
-		max = min
+	if maxLength < minLength {
+		maxLength = minLength
 	}
 
 	chars := f.Characters
@@ -78,8 +78,8 @@ func (f *StringFactory) Prepare(overrides Partial[StringProperties], seed int64)
 	}
 
 	properties := StringProperties{
-		min:        min,
-		max:        max,
+		min:        minLength,
+		max:        maxLength,
 		characters: chars,
 	}
 
@@ -103,6 +103,7 @@ func (f *StringFactory) Prepare(overrides Partial[StringProperties], seed int64)
 
 		value := make([]rune, length)
 		for index := range length {
+			//nolint:gosec // G115: Controlled conversion for hash scrambling within expected range
 			scrambled := math.Scramble(uint32(seed + int64(index)))
 			characterIndex := int(scrambled) % len(properties.characters)
 			value[index] = properties.characters[characterIndex]

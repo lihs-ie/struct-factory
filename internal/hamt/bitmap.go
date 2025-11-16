@@ -6,6 +6,7 @@ type Bitmap uint64
 
 const (
 	shiftWidth = 6
+	maxOffset  = 10 // Maximum HAMT depth: 64-bit hash / 6-bit width ≈ 10 levels
 	mask64     = ^uint64(0)
 	mixMul1    = 0xBF58476D1CE4E589
 	mixMul2    = 0x94D049BB133111EB
@@ -24,6 +25,12 @@ func bandMask() uint64 {
 }
 
 func (bitmap Bitmap) Position(hash uint64, offset int) uint64 {
+	// Safety: offset is constrained by HAMT depth (0-10), making conversion to uint safe.
+	// HAMT uses 6-bit chunks from a 64-bit hash, limiting depth to ~10 levels.
+	if offset < 0 || offset > maxOffset {
+		panic("bitmap: offset out of valid HAMT range")
+	}
+	// Conversion is safe: offset bounds-checked above [0, 10]
 	shift := uint(offset * shiftWidth)
 
 	shifted := hash >> shift
